@@ -1,0 +1,30 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=user
+    ports:
+      - '5432:5432'
+
+  server:
+    build: 
+      context: .
+    environment:
+      DB_SCHEMA: bank_tz
+      DB_USER: user
+      DB_PASSWORD: password
+      DB_HOST: postgres
+    ports:
+      - '3000:3000'
+    depends_on:
+      - db
+    volumes:
+      - .:/opt/app
+    command: npm run start
+
+volumes:
+  .:
