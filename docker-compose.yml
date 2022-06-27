@@ -6,25 +6,25 @@ services:
     restart: always
     environment:
       - POSTGRES_PASSWORD=password
-      - POSTGRES_USER=user
+      - POSTGRES_USER=postgres
     ports:
-      - '5432:5432'
+      - '5432:5432/tcp'
 
   server:
     build: 
       context: .
     environment:
       DB_SCHEMA: bank_tz
-      DB_USER: user
+      DB_USER: postgres
       DB_PASSWORD: password
-      DB_HOST: postgres
+      DB_HOST: db
     ports:
       - '3000:3000'
+      - '9229:9229'
     depends_on:
       - db
     volumes:
       - .:/opt/app
-    command: npm run start
 
 volumes:
   .:

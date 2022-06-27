@@ -1,0 +1,16 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "env": {
+    "node": true,
+    "es6": true
+  },
+  "rules": {
+    "no-extra-semi": "off",
+    "@typescript-eslint/no-extra-semi": ["error"]
+  }
+}
