@@ -1,8 +1,14 @@
 FROM node:gallium
-WORKDIR /opt/app
-RUN adduser app
 
-RUN chown -R app /opt/app
-USER app
-EXPOSE 3000
-CMD ["npm" "run" "start"]
+EXPOSE 8181
+EXPOSE 9229
+WORKDIR /usr/app
+
+COPY package*.json ./
+COPY tsconfig.json ./
+RUN mkdir src
+COPY src /usr/app/src
+
+RUN npm i
+RUN npm i -g typescript
+RUN tsc -p .

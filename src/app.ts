@@ -24,7 +24,7 @@ void MikroORM.init <PostgreSqlDriver> ({
   dbName: 'bank_tz',
   user: 'postgres',
   password: 'password',
-  host: 'localhost',
+  host: 'db',
   type: 'postgresql',
   discovery: {
     warnWhenNoEntities: false
@@ -58,7 +58,7 @@ server.use((req, res, next) => RequestContext.create(DI.orm.em, next))
 server.use(bodyParser.json())
 server.use('/api', router)
 
-server.listen(8181, 'localhost', () => {
+server.listen(8181, '0.0.0.0', () => {
   console.info('server started on 8181')
 })
 

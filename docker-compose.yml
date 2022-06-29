@@ -19,12 +19,8 @@ services:
       DB_PASSWORD: password
       DB_HOST: db
     ports:
-      - '3000:3000'
+      - '127.0.0.1:8181:8181'
       - '9229:9229'
     depends_on:
       - db
-    volumes:
-      - .:/opt/app
-
-volumes:
-  .:
+    command: npm run start

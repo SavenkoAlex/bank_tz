@@ -23,7 +23,8 @@
       "type": "node",
       "request": "attach",
       "port": 9229,
-      "remoteRoot": "/opt/app",
+      "address": "localhost",
+      "remoteRoot": "/usr/app",
       "localRoot": "${workspaceFolder}",
       "sourceMaps": true
     }
