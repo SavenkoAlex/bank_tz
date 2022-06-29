@@ -7,12 +7,11 @@ export class CategoryTypeFactory extends Factory <CategoryTypeModel> {
   model = CategoryTypeModel
 
   protected definition(faker: Faker): EntityData<CategoryTypeModel> {
-    
     return {
       id: uuidv4({}),
-      slug: faker.lorem.slug(2),
+      slug: faker.lorem.slug(),
       name: faker.lorem.word(),
-      description: faker.lorem.paragraph(1),
+      description: faker.lorem.words(3),
       createDate: new Date(),
       active: faker.datatype.boolean()
     }

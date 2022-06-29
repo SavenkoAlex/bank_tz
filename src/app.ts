@@ -1,11 +1,21 @@
 import express from 'express'
 import path from 'path'
-import { PostgreSqlDriver } from '@mikro-orm/postgresql'
-import { MikroORM } from '@mikro-orm/core'
+import { EntityRepository, PostgreSqlDriver } from '@mikro-orm/postgresql'
+import { MikroORM, RequestContext, EntityManager } from '@mikro-orm/core'
 import { TsMorphMetadataProvider } from '@mikro-orm/reflection'
 import { DatabaseSeeder } from './db/seeders/CategoryTypeSeeders'
+import { router } from './router'
+import { CategoryTypeModel } from './db/entities/CategoryTypeModel'
+import bodyParser from 'body-parser'
 
 const server = express()
+
+export const DI = {} as {
+  server: typeof server
+  orm: MikroORM,
+  em: EntityManager,
+  categoryRepository: EntityRepository<CategoryTypeModel>,
+}
 
 void MikroORM.init <PostgreSqlDriver> ({
   metadataProvider: TsMorphMetadataProvider,
@@ -14,7 +24,7 @@ void MikroORM.init <PostgreSqlDriver> ({
   dbName: 'bank_tz',
   user: 'postgres',
   password: 'password',
-  host: 'db',
+  host: 'localhost',
   type: 'postgresql',
   discovery: {
     warnWhenNoEntities: false
@@ -28,34 +38,28 @@ void MikroORM.init <PostgreSqlDriver> ({
     fileName: (className: string) => className, // seeder file naming convention
   }
 })
-.then( orm => {
-  console.log('successfully connected to database')
-  return orm
-})
 .then( async orm => {
-  /*
-  const migrator = orm.getMigrator()
-  await migrator.createMigration(path.resolve(__dirname, 'db-migrations'), false)
-  await migrator.down()
-  await migrator.up()
-
-  const generator = orm.getEntityGenerator();
-  const dump = await generator.generate({ 
-    save: true,
-    baseDir: process.cwd() + '/my-entities',
-  });
-  console.log(dump);
-  */
+  DI.orm = orm
+  DI.em = orm.em
+  DI.server = server
+  DI.categoryRepository = DI.orm.em.getRepository(CategoryTypeModel)
+  
   const seeder = orm.getSeeder()
   await orm.getSchemaGenerator().refreshDatabase()
   await seeder.seed(DatabaseSeeder)
-  await orm.close(true);
 })
-.then(() => {
-  server.listen(8181, () => {
-    console.log('Listen on 8181')
-  })
-}).catch(err => {
+.catch(err => {
   console.error(err)
+  process.exit(2)
 })
+
+
+server.use((req, res, next) => RequestContext.create(DI.orm.em, next))
+server.use(bodyParser.json())
+server.use('/api', router)
+
+server.listen(8181, 'localhost', () => {
+  console.info('server started on 8181')
+})
+
 

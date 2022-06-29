@@ -5,11 +5,26 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Launch via NPM",
+      "request": "launch",
+      "runtimeArgs": [
+        "run",
+        "start"
+      ],
+      "runtimeExecutable": "npm",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "type": "node",
+      "sourceMaps": true
+    },
+    {
+      "name": "Attach to the Container",
       "type": "node",
       "request": "attach",
-      "name": "Docker: Attach to Node",
+      "port": 9229,
       "remoteRoot": "/opt/app",
-      "localRoot": "${worksppaceFolder}",
+      "localRoot": "${workspaceFolder}",
       "sourceMaps": true
     }
   ]

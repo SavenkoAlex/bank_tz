@@ -1,0 +1,6 @@
+PUT http://localhost:8181/api/category/5056cfa2-1522-4d47-9c91-22e78dd1be0f
+Content-Type: application/json
+
+{
+  "name": "Bjarne Stroustrup"
+}
