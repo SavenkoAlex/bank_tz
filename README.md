@@ -1,9 +1,9 @@
-docker-compose build
-docker-compose up -d 
-# И можно проверить curlом
-curl -v "http://localhost:8181/api/category?search=qu&sort=createDate&pageSize=4"
+docker-compose build <br/>
+docker-compose up -d <br/>
+# И можно проверить curlом <br/>
+curl -v "http://localhost:8181/api/category?search=qu&sort=createDate&pageSize=4" <br/>
 
-в случае если кантейнер с приложением не подымается
-npm i
-tsc -p .
-npm run start
+в случае если контейнер с приложением не подымается <br/>
+npm i <br/>
+tsc -p . <br/> 
+npm run start <br/>
